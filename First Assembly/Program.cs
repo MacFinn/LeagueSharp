@@ -86,7 +86,7 @@ namespace First_Assembly
             Config.AddToMainMenu();
 
 
-            //Notifications.AddNotification("Mac's TF Loaded!", 5);
+            Notifications.AddNotification("Mac's TF Loaded!", 5);
             
             
             
@@ -113,9 +113,7 @@ namespace First_Assembly
         }
 
         private static void Game_OnUpdate(EventArgs args){
-            Notifications.AddNotification("tessst", 20);
-
-            Game.PrintChat("Test");
+            
             Target = TargetSelector.GetTarget(Q.Range, TargetSelector.DamageType.Magical);
             Killsteal();
             if (GetActive("AutoPoke"))
@@ -231,10 +229,16 @@ namespace First_Assembly
 
         private static void AutoPoke()
         {
-            if (!GetBool("AutoPoke")) return;
+            if (!GetBool("AutoPoke"))
+            {
+                Console.WriteLine("Poke disabled");
+                return;
+            }
+                
             if (Q.IsReady() && Q.IsInRange(Target) && Player.ManaPercent > 30)
             {
-                Q.SetSkillshot(Q.Delay, Q.Width, Q.Speed, false, SkillshotType.SkillshotLine, Q.From, Q.RangeCheckFrom);
+                Console.WriteLine("trying to poke");
+                return; Q.SetSkillshot(Q.Delay, Q.Width, Q.Speed, false, SkillshotType.SkillshotLine, Q.From, Q.RangeCheckFrom);
                 Q.CastIfHitchanceEquals(Target, HitChance.High);
             }
         }
@@ -244,15 +248,18 @@ namespace First_Assembly
             
             if (Orbwalker.InAutoAttackRange(Target) && Target.Health <= Damage.GetAutoAttackDamage(Player, Target, true) && Orbwalker.InAutoAttackRange(Target))
             {
+                Console.WriteLine("KS");
                 Orbwalker.SetAttack(true);
             }
             else if (Q.IsKillable(Target) && Q.IsReady())
             {
+                Console.WriteLine("KS");
                 Q.SetSkillshot(Q.Delay, Q.Width, Q.Speed, false, SkillshotType.SkillshotLine, Q.From, Q.RangeCheckFrom);
                 Q.CastOnUnit(Target);
             }
             else if (W.IsKillable(Target) && W.IsReady() && W.IsInRange(Target))
             {
+                Console.WriteLine("KS");
                 Q.Cast();
                 Q.CastOnUnit(Target);
             }
@@ -260,7 +267,11 @@ namespace First_Assembly
 
         private static void Combo()
         {
-            if (Target == null || !detectCollision(Target)) return;
+            if (Target == null || !detectCollision(Target))
+            {
+                Console.WriteLine("cant combo");
+                return;
+            } 
             if (IsInvul(Target) && W.IsInRange(Target))
             {
                 UseCard(Cards.Yellow);
