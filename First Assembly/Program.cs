@@ -83,10 +83,10 @@ namespace First_Assembly
             Config.SubMenu("Extra").AddItem(new MenuItem("UseSeraphs", "Use Seraphs Embrace").SetValue(true));
             Config.SubMenu("Extra").AddItem(new MenuItem("HP", "SE when % HP <=").SetValue(new Slider(20, 100, 0)));
 
-            Game.PrintChat("Mac's TF Loaded");
             Config.AddToMainMenu();
 
-            Notifications.AddNotification("Mac's TF Loaded!", 5000);
+
+            //Notifications.AddNotification("Mac's TF Loaded!", 5);
             
             
             
@@ -113,6 +113,8 @@ namespace First_Assembly
         }
 
         private static void Game_OnUpdate(EventArgs args){
+            Notifications.AddNotification("tessst", 20);
+
             Game.PrintChat("Test");
             Target = TargetSelector.GetTarget(Q.Range, TargetSelector.DamageType.Magical);
             Killsteal();
