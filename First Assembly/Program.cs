@@ -287,14 +287,14 @@ namespace First_Assembly
             if (Q.IsReady())
             {
                 Console.WriteLine("throw Q");
-                Q.SetSkillshot(Q.Delay, Q.Width, Q.Speed, false, SkillshotType.SkillshotLine, Q.From, Q.RangeCheckFrom);
-                Q.CastOnUnit(Target);
+                //Q.SetSkillshot(Q.Delay, Q.Width, Q.Speed, false, SkillshotType.SkillshotLine, Q.From, Q.RangeCheckFrom);
+                Q.Cast(Target);
             } 
-            else if (W.IsInRange(Target) && W.IsReady())
-            {
-                Console.WriteLine("use yellow");
-                UseCard(Cards.Yellow);
-            }
+            //else if (W.IsInRange(Target) && W.IsReady())
+            //{
+            //    Console.WriteLine("use yellow");
+            //    UseCard(Cards.Yellow);
+            //}
             else
             {
                 Console.WriteLine("AA");
