@@ -54,7 +54,8 @@ namespace First_Assembly
             IgniteSlot = Player.GetSpellSlot("SummonerDot");
 
             GameOptions Options = new GameOptions();
-            Options.CreateMenu();
+            Config = Options.CreateMenu();
+            Config.AddToMainMenu();
 
             Notifications.AddNotification("Mac's TF Loaded!", 5000);
             
