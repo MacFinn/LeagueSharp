@@ -118,7 +118,7 @@ namespace First_Assembly
             //killsteal();
             if (GetActive("AutoPoke"))
             {
-                AutoPoke();
+                //AutoPoke();
             }
 
             switch (Orbwalker.ActiveMode)
