@@ -120,9 +120,11 @@ namespace First_Assembly
             {
                 //AutoPoke();
             }
+            Orbwalker.ActiveMode = Orbwalking.OrbwalkingMode.None;
 
             switch (Orbwalker.ActiveMode)
             {
+
                 case Orbwalking.OrbwalkingMode.Combo:
                     Combo();
                     break;
