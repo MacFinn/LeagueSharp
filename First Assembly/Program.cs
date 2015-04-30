@@ -240,8 +240,7 @@ namespace First_Assembly
             if (Q.IsReady() && Q.IsInRange(Target) && Player.ManaPercent > 30)
             {
                 Console.WriteLine("trying to poke");
-                return; Q.SetSkillshot(Q.Delay, Q.Width, Q.Speed, false, SkillshotType.SkillshotLine, Q.From, Q.RangeCheckFrom);
-                Q.CastIfHitchanceEquals(Target, HitChance.High);
+                Q.Cast(Target);
             }
         }
 
@@ -287,14 +286,13 @@ namespace First_Assembly
             if (Q.IsReady())
             {
                 Console.WriteLine("throw Q");
-                //Q.SetSkillshot(Q.Delay, Q.Width, Q.Speed, false, SkillshotType.SkillshotLine, Q.From, Q.RangeCheckFrom);
                 Q.Cast(Target.Position);
-            } 
-            //else if (W.IsInRange(Target) && W.IsReady())
-            //{
-            //    Console.WriteLine("use yellow");
-            //    UseCard(Cards.Yellow);
-            //}
+            }
+            else if (W.IsInRange(Target) && W.IsReady())
+            {
+                Console.WriteLine("use yellow");
+                UseCard(Cards.Yellow);
+            }
             else
             {
                 Console.WriteLine("AA");
@@ -310,7 +308,7 @@ namespace First_Assembly
             {
                 if (CardSelector.Status == SelectStatus.Selected)
                 {
-                    W.Cast(Target, true, false);
+                    W.CastOnUnit(Target);
                 }
             }
         }

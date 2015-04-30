@@ -30,6 +30,7 @@ namespace TwistedFate
         public static Cards Select;
         public static int LastWSent = 0;
         public static int LastSendWSent = 0;
+        private static Spell W = new Spell(SpellSlot.W, 525);
 
 
         static CardSelector()
@@ -43,7 +44,7 @@ namespace TwistedFate
         private static void SendWPacket()
         {
             LastSendWSent = Utils.TickCount;
-            ObjectManager.Player.Spellbook.CastSpell(SpellSlot.W, false);
+            W.Cast(false);
         }
 
         public static void StartSelecting(Cards card)
