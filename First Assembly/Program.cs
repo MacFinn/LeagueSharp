@@ -115,7 +115,7 @@ namespace First_Assembly
         private static void Game_OnUpdate(EventArgs args){
             
             Target = TargetSelector.GetTarget(Q.Range, TargetSelector.DamageType.Magical);
-            Killsteal();
+            //killsteal();
             if (GetActive("AutoPoke"))
             {
                 AutoPoke();
@@ -154,7 +154,7 @@ namespace First_Assembly
                 }
             }
             
-            Killsteal();
+            //killsteal();
             
         }
 
