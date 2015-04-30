@@ -271,29 +271,34 @@ namespace First_Assembly
         {
             if (Target == null || !detectCollision(Target))
             {
-                Console.WriteLine("cant combo");
+                Console.WriteLine("Noone in range");
                 return;
             } 
             if (IsInvul(Target) && W.IsInRange(Target))
             {
+                Console.WriteLine("use yellow");
                 UseCard(Cards.Yellow);
             }
-            if (GetBool("UseIgnite") && CanIgnite() && GetDistance(Target) <= 600 && GetComboDamage(Target) >= (double)Target.Health)
+            if (GetBool("UseIgnite") && CanIgnite() && GetDistance(Target) <= 300 && GetComboDamage(Target) >= (double)Target.Health)
             {
                 Player.Spellbook.CastSpell(IgniteSlot, Target);
             }
 
             if (Q.IsReady())
             {
+                Console.WriteLine("throw Q");
                 Q.SetSkillshot(Q.Delay, Q.Width, Q.Speed, false, SkillshotType.SkillshotLine, Q.From, Q.RangeCheckFrom);
                 Q.CastOnUnit(Target);
             } 
             else if (W.IsInRange(Target) && W.IsReady())
             {
+                Console.WriteLine("use yellow");
                 UseCard(Cards.Yellow);
             }
             else
             {
+                Console.WriteLine("AA");
+
                 Orbwalker.ForceTarget(Target);
             }
         }
