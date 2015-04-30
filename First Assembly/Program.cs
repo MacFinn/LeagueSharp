@@ -32,6 +32,7 @@ namespace First_Assembly
         private static int WallCastT;
         private static Vector2 YasuoWallCastedPos;
         private static GameObject YasuoWall;
+        private static int EStacks = 0;
         #endregion
 
         static void Main(string[] args)
@@ -55,8 +56,30 @@ namespace First_Assembly
             GameOptions Options = new GameOptions();
             Options.CreateMenu();
 
+            Notifications.AddNotification("Mac's TF Loaded!", 5000);
+            
+            
+            
+
             Game.OnUpdate += Game_OnUpdate;
             Orbwalking.AfterAttack += OrbwalkingAfterAttack;
+            Drawing.OnDraw += Drawing_OnDraw;
+        }
+
+        private static void Drawing_OnDraw(EventArgs args)
+        {
+            //Draw Q Range
+            if(Q.IsReady())
+                Render.Circle.DrawCircle(Player.Position, Q.Range, Color.Aqua, 5);
+            //Draw W Range
+            if(W.IsReady())
+                Render.Circle.DrawCircle(Player.Position, W.Range, Color.Aqua, 5);
+            //Draw Ult Range
+            if(R.IsReady())
+                Render.Circle.DrawCircle(Player.Position, R.Range, Color.Aqua, 5);
+            //Draw number of stacks on E
+            if(E.IsReady())
+                Drawing.DrawText(200, 200, Color.Aqua, "Number of E stacks: " + EStacks);
         }
 
         private static void Game_OnUpdate(EventArgs args){
@@ -88,25 +111,20 @@ namespace First_Assembly
 
         static void OrbwalkingAfterAttack(AttackableUnit unit, AttackableUnit enemy)
         {
-            Target = TargetSelector.GetTarget(Q.Range, TargetSelector.DamageType.Magical);
-            Killsteal();
-            switch (Orbwalker.ActiveMode)
+            if (E.IsReady())
             {
-                case Orbwalking.OrbwalkingMode.Combo:
-                    Combo();
-                    break;
-                case Orbwalking.OrbwalkingMode.Mixed:
-                    Mixed();
-                    break;
-                case Orbwalking.OrbwalkingMode.LastHit:
-                    Freeze();
-                    break;
-                case Orbwalking.OrbwalkingMode.LaneClear:
-                    LaneClear();
-                    break;
-                case Orbwalking.OrbwalkingMode.None:
-                    return;
+                if (EStacks != 4)
+                {
+                    EStacks++;
+                }
+                else
+                {
+                    EStacks = 0;
+                }
             }
+            
+            Killsteal();
+            
         }
 
         private static void Freeze()
