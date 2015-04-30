@@ -44,7 +44,7 @@ namespace First_Assembly
         {
             Player = ObjectManager.Player;
 
-            if (Player.ChampionName != "TwistedFate") return;
+            if (Player.ChampionName != "Twisted Fate") return;
 
             Q = new Spell(SpellSlot.Q, 1450);
             W = new Spell(SpellSlot.W, 525);
