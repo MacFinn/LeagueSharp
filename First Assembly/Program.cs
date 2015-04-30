@@ -288,7 +288,7 @@ namespace First_Assembly
             {
                 Console.WriteLine("throw Q");
                 //Q.SetSkillshot(Q.Delay, Q.Width, Q.Speed, false, SkillshotType.SkillshotLine, Q.From, Q.RangeCheckFrom);
-                Q.Cast(Target);
+                Q.Cast(Target.Position);
             } 
             //else if (W.IsInRange(Target) && W.IsReady())
             //{
