@@ -113,6 +113,7 @@ namespace First_Assembly
         }
 
         private static void Game_OnUpdate(EventArgs args){
+            Game.PrintChat("Test");
             Target = TargetSelector.GetTarget(Q.Range, TargetSelector.DamageType.Magical);
             Killsteal();
             if (GetActive("AutoPoke"))
