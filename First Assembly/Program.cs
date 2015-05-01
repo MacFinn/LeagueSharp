@@ -218,6 +218,10 @@ namespace First_Assembly
                 } 
                 else if(Player.ManaPercent > 40 && W.IsInRange(minion))
                 {
+                    CardSelector.StartSelecting(Cards.Red);
+                }
+                else if (Player.ManaPercent < 40 && W.IsInRange(minion))
+                {
                     CardSelector.StartSelecting(Cards.Blue);
                 }
                 else
