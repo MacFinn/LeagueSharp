@@ -168,6 +168,8 @@ namespace First_Assembly
 
         private static void Freeze()
         {
+            if (Target == null) return;
+
             Killsteal();
             var allMinions = MinionManager.GetMinions(Player.Position, Q.Range, MinionTypes.All, MinionTeam.NotAlly, MinionOrderTypes.MaxHealth);
             if (allMinions.Count < 1) return;
@@ -183,6 +185,8 @@ namespace First_Assembly
 
         private static void Mixed()
         {
+            if (Target == null) return;
+
             Killsteal();
 
             if (Target == null || !detectCollision(Target)) return;
@@ -211,6 +215,8 @@ namespace First_Assembly
 
         private static void LaneClear()
         {
+            if (Target == null) return;
+
             Killsteal();
 
             Orbwalker.ActiveMode = Orbwalking.OrbwalkingMode.LaneClear;
