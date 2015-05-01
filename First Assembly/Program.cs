@@ -168,8 +168,6 @@ namespace First_Assembly
 
         private static void Freeze()
         {
-            if (Target == null) return;
-
             Killsteal();
             var allMinions = MinionManager.GetMinions(Player.Position, Q.Range, MinionTypes.All, MinionTeam.NotAlly, MinionOrderTypes.MaxHealth);
             if (allMinions.Count < 1) return;
@@ -185,38 +183,36 @@ namespace First_Assembly
 
         private static void Mixed()
         {
-            if (Target == null) return;
-
+            
             Killsteal();
-
-            if (Target == null || !detectCollision(Target)) return;
             if (CardSelector.Status == SelectStatus.Selected)
             {
                 Orbwalker.ForceTarget(Target);
             }
-            if (IsInvul(Target))
+            if (Target == null || !W.IsInRange(Target))
             {
-                CardSelector.StartSelecting(Cards.Yellow);
-            }
-            var allMinions = MinionManager.GetMinions(Player.Position, Q.Range, MinionTypes.All, MinionTeam.NotAlly, MinionOrderTypes.MaxHealth);
-            if (allMinions.Count < 1) return;
-            foreach (var minion in allMinions)
-            {
-                if (Damage.GetAutoAttackDamage(Player, Target, true) > minion.Health && Orbwalker.InAutoAttackRange(minion))
+                var allMinions = MinionManager.GetMinions(Player.Position, Q.Range, MinionTypes.All, MinionTeam.NotAlly, MinionOrderTypes.MaxHealth);
+                if (allMinions.Count < 1) return;
+                foreach (var minion in allMinions)
                 {
-                    Orbwalker.ForceTarget(minion);
+                    if (Damage.GetAutoAttackDamage(Player, Target, true) > minion.Health && Orbwalker.InAutoAttackRange(minion))
+                    {
+                        Orbwalker.ForceTarget(minion);
+                    }
                 }
             }
-            if (!Orbwalker.InAutoAttackRange(Target))
+            else
             {
+                if (IsInvul(Target))
+                {
+                    CardSelector.StartSelecting(Cards.Yellow);
+                }
                 Orbwalker.ForceTarget(Target);
             }
         }
 
         private static void LaneClear()
         {
-            if (Target == null) return;
-
             Killsteal();
 
             Orbwalker.ActiveMode = Orbwalking.OrbwalkingMode.LaneClear;
