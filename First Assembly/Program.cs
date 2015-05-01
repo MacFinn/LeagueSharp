@@ -33,6 +33,7 @@ namespace First_Assembly
         private static Vector2 YasuoWallCastedPos;
         private static GameObject YasuoWall;
         private static int EStacks = 0;
+
         #endregion
 
         static void Main(string[] args)
@@ -108,8 +109,7 @@ namespace First_Assembly
             if(R.IsReady())
                 Render.Circle.DrawCircle(Player.Position, R.Range, Color.Aqua, 5);
             //Draw number of stacks on E
-            
-            Drawing.DrawText(Player.Position.X, Player.Position.Y, Color.AliceBlue, "asdasdasd");
+            Drawing.DrawText(Game.CursorPos.X, Game.CursorPos.Y, Color.AliceBlue, "E Stacks: " + EStacks);
         }
 
         private static void Game_OnUpdate(EventArgs args){
