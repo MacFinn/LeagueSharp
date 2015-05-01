@@ -115,11 +115,10 @@ namespace First_Assembly
         private static void Game_OnUpdate(EventArgs args){
             
             Target = TargetSelector.GetTarget(Q.Range, TargetSelector.DamageType.Magical);
-            Killsteal();
-            if (GetActive("AutoPoke"))
-            {
-                AutoPoke();
-            }
+            //if (GetActive("AutoPoke"))
+            //{
+            //    AutoPoke();
+            //}
             Orbwalker.ActiveMode = Orbwalking.OrbwalkingMode.None;
 
             switch (Orbwalker.ActiveMode)
@@ -159,6 +158,7 @@ namespace First_Assembly
 
         private static void Freeze()
         {
+            Killsteal();
             var allMinions = MinionManager.GetMinions(Player.Position, Q.Range, MinionTypes.All, MinionTeam.NotAlly, MinionOrderTypes.MaxHealth);
             if (allMinions.Count < 1) return;
             foreach (var minion in allMinions)
@@ -173,6 +173,8 @@ namespace First_Assembly
 
         private static void Mixed()
         {
+            Killsteal();
+
             if (Target == null || !detectCollision(Target)) return;
             if (CardSelector.Status == SelectStatus.Selected)
             {
@@ -199,6 +201,8 @@ namespace First_Assembly
 
         private static void LaneClear()
         {
+            Killsteal();
+
             Orbwalker.ActiveMode = Orbwalking.OrbwalkingMode.LaneClear;
             var allMinions = MinionManager.GetMinions(Player.Position, Q.Range, MinionTypes.All, MinionTeam.NotAlly, MinionOrderTypes.MaxHealth);
             if (allMinions.Count < 1) return;
@@ -267,6 +271,9 @@ namespace First_Assembly
                 Console.WriteLine("Noone in range");
                 return;
             }
+
+            Killsteal();
+
             if (CardSelector.Status == SelectStatus.Selected)
             {
                 Orbwalker.ForceTarget(Target);
