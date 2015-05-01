@@ -108,17 +108,17 @@ namespace First_Assembly
             if(R.IsReady())
                 Render.Circle.DrawCircle(Player.Position, R.Range, Color.Aqua, 5);
             //Draw number of stacks on E
-            if(E.IsReady())
-                Drawing.DrawText(200, 200, Color.Aqua, "Number of E stacks: " + EStacks);
+            
+            Drawing.DrawText(Player.Position.X, Player.Position.Y, Color.AliceBlue, "asdasdasd");
         }
 
         private static void Game_OnUpdate(EventArgs args){
             
             Target = TargetSelector.GetTarget(Q.Range, TargetSelector.DamageType.Magical);
-            //killsteal();
+            Killsteal();
             if (GetActive("AutoPoke"))
             {
-                //AutoPoke();
+                AutoPoke();
             }
             Orbwalker.ActiveMode = Orbwalking.OrbwalkingMode.None;
 
@@ -155,9 +155,6 @@ namespace First_Assembly
                     EStacks = 0;
                 }
             }
-            
-            //killsteal();
-            
         }
 
         private static void Freeze()
@@ -177,25 +174,26 @@ namespace First_Assembly
         private static void Mixed()
         {
             if (Target == null || !detectCollision(Target)) return;
-            if (IsInvul(Target))
-            {
-                UseCard(Cards.Yellow);
-            }
-            var allMinions = MinionManager.GetMinions(Player.Position, Q.Range, MinionTypes.All, MinionTeam.NotAlly, MinionOrderTypes.MaxHealth);
-            if (allMinions.Count < 1) return;
-            if (Orbwalker.InAutoAttackRange(Target))
+            if (CardSelector.Status == SelectStatus.Selected)
             {
                 Orbwalker.ForceTarget(Target);
             }
-            else
+            if (IsInvul(Target))
             {
-                foreach (var minion in allMinions)
+                CardSelector.StartSelecting(Cards.Yellow);
+            }
+            var allMinions = MinionManager.GetMinions(Player.Position, Q.Range, MinionTypes.All, MinionTeam.NotAlly, MinionOrderTypes.MaxHealth);
+            if (allMinions.Count < 1) return;
+            foreach (var minion in allMinions)
+            {
+                if (Damage.GetAutoAttackDamage(Player, Target, true) > minion.Health && Orbwalker.InAutoAttackRange(minion))
                 {
-                    if (Damage.GetAutoAttackDamage(Player, Target, true) > minion.Health && Orbwalker.InAutoAttackRange(minion))
-                    {
-                        Orbwalker.ForceTarget(minion);
-                    }
+                    Orbwalker.ForceTarget(minion);
                 }
+            }
+            if (!Orbwalker.InAutoAttackRange(Target))
+            {
+                Orbwalker.ForceTarget(Target);
             }
         }
 
@@ -206,7 +204,10 @@ namespace First_Assembly
             if (allMinions.Count < 1) return;
             foreach (var minion in allMinions)
             {
-                
+                if (CardSelector.Status == SelectStatus.Selected)
+                {
+                    Orbwalker.ForceTarget(minion);
+                }
                 if (Q.IsReady() && Player.ManaPercent < 40)
                 {
                     Q.CastOnUnit(minion);
@@ -214,13 +215,6 @@ namespace First_Assembly
                 else if(Player.ManaPercent > 40 && W.IsInRange(minion))
                 {
                     CardSelector.StartSelecting(Cards.Blue);
-                    while (CardSelector.Status == SelectStatus.Selecting)
-                    {
-                        if (CardSelector.Status == SelectStatus.Ready)
-                        {
-                            W.CastOnUnit(minion);
-                        }
-                    }
                 }
                 else
                 {
@@ -246,7 +240,9 @@ namespace First_Assembly
 
         private static void Killsteal()
         {
-            
+            if(CardSelector.Status == SelectStatus.Selected && W.IsKillable(Target)){
+                Orbwalker.ForceTarget(Target);
+            }
             if (Orbwalker.InAutoAttackRange(Target) && Target.Health <= Damage.GetAutoAttackDamage(Player, Target, true) && Orbwalker.InAutoAttackRange(Target))
             {
                 Console.WriteLine("KS");
@@ -260,9 +256,7 @@ namespace First_Assembly
             }
             else if (W.IsKillable(Target) && W.IsReady() && W.IsInRange(Target))
             {
-                Console.WriteLine("KS");
-                Q.Cast();
-                Q.CastOnUnit(Target);
+                CardSelector.StartSelecting(Cards.Blue);
             }
         }
 
@@ -272,11 +266,15 @@ namespace First_Assembly
             {
                 Console.WriteLine("Noone in range");
                 return;
-            } 
+            }
+            if (CardSelector.Status == SelectStatus.Selected)
+            {
+                Orbwalker.ForceTarget(Target);
+            }
             if (IsInvul(Target) && W.IsInRange(Target))
             {
                 Console.WriteLine("use yellow");
-                UseCard(Cards.Yellow);
+                CardSelector.StartSelecting(Cards.Yellow);
             }
             if (GetBool("UseIgnite") && CanIgnite() && GetDistance(Target) <= 300 && GetComboDamage(Target) >= (double)Target.Health)
             {
@@ -291,25 +289,13 @@ namespace First_Assembly
             else if (W.IsInRange(Target) && W.IsReady())
             {
                 Console.WriteLine("use yellow");
-                UseCard(Cards.Yellow);
+                CardSelector.StartSelecting(Cards.Yellow);
             }
             else
             {
                 Console.WriteLine("AA");
 
                 Orbwalker.ForceTarget(Target);
-            }
-        }
-
-        private static void UseCard(Cards card)
-        {
-            CardSelector.StartSelecting(card);
-            while (CardSelector.Status == SelectStatus.Selecting)
-            {
-                if (CardSelector.Status == SelectStatus.Selected)
-                {
-                    W.CastOnUnit(Target);
-                }
             }
         }
 
