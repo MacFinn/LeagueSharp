@@ -114,7 +114,17 @@ namespace First_Assembly
 
         private static void Game_OnUpdate(EventArgs args){
             
-            Target = TargetSelector.GetTarget(Q.Range, TargetSelector.DamageType.Magical);
+            if(W.IsReady())
+            {
+                Target = TargetSelector.GetTarget(W.Range, TargetSelector.DamageType.Magical);
+
+            }
+            else if(Q.IsReady())
+            {
+                Target = TargetSelector.GetTarget(Q.Range, TargetSelector.DamageType.Magical);
+
+            }
+
             //if (GetActive("AutoPoke"))
             //{
             //    AutoPoke();
@@ -238,6 +248,8 @@ namespace First_Assembly
                 Console.WriteLine("Poke disabled");
                 return;
             }
+            if (Target == null) return;
+
                 
             if (Q.IsReady() && Q.IsInRange(Target) && Player.ManaPercent > 30)
             {
@@ -248,6 +260,7 @@ namespace First_Assembly
 
         private static void Killsteal()
         {
+            if (Target == null) return;
             if(CardSelector.Status == SelectStatus.Selected && W.IsKillable(Target)){
                 Orbwalker.ForceTarget(Target);
             }
