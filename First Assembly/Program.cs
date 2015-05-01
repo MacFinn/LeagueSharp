@@ -173,7 +173,7 @@ namespace First_Assembly
             if (allMinions.Count < 1) return;
             foreach (var minion in allMinions)
             {
-                if (Damage.GetAutoAttackDamage(Player, Target, false) > minion.Health && Orbwalker.InAutoAttackRange(minion))
+                if (Damage.GetAutoAttackDamage(Player, minion, false) > minion.Health && Orbwalker.InAutoAttackRange(minion))
                 {
                     Orbwalker.ForceTarget(minion);
                 }
