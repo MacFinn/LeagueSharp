@@ -238,17 +238,17 @@ namespace First_Assembly
                 {
                     Orbwalker.ForceTarget(minion);
                 }
-                if (Q.IsReady() && Player.ManaPercent > 40)
+                if (Q.IsReady() && Player.Mana >= 160)
                 {
                     Q.GetLineFarmLocation(allMinions);
                     Console.WriteLine("casted q");
                 }
-                else if(Player.ManaPercent > 40 && W.IsInRange(minion))
+                else if(Player.Mana > 100 && W.IsInRange(minion) && W.IsReady())
                 {
                     Console.WriteLine("Red card minion");
                     CardSelector.StartSelecting(Cards.Red);
                 }
-                else if (Player.ManaPercent <= 40 && W.IsInRange(minion))
+                else if (Player.Mana <= 100 && W.IsInRange(minion) && W.IsReady())
                 {
                     Console.WriteLine("Blue card minion");
                     CardSelector.StartSelecting(Cards.Blue);
