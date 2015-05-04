@@ -113,15 +113,21 @@ namespace First_Assembly
         }
 
         private static void Game_OnUpdate(EventArgs args){
-            
-            if(W.IsReady())
+
+            if (Player.IsDead)
             {
-                Target = TargetSelector.GetTarget(W.Range, TargetSelector.DamageType.Magical);
+                EStacks = 0;
 
             }
-            else if(Q.IsReady())
+            if(Q.IsReady())
             {
                 Target = TargetSelector.GetTarget(Q.Range, TargetSelector.DamageType.Magical);
+
+
+            }
+            else if(W.IsReady())
+            {
+                Target = TargetSelector.GetTarget(W.Range, TargetSelector.DamageType.Magical);
 
             }
 
@@ -170,9 +176,6 @@ namespace First_Assembly
             {
                 Console.WriteLine("E Not ready");
             }
-                
-                
-                
         }
 
         private static void Freeze()
