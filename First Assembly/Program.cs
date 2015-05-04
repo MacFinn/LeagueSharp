@@ -153,7 +153,7 @@ namespace First_Assembly
 
         static void OrbwalkingAfterAttack(AttackableUnit unit, AttackableUnit enemy)
         {
-            if (SpellSlot.E.IsReady())
+            if (E.Level > 0)
             {
                 Console.WriteLine("E READY");
                 if (EStacks < 4)
