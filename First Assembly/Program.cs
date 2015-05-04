@@ -240,8 +240,16 @@ namespace First_Assembly
                 }
                 if (Q.IsReady() && Player.Mana >= 160)
                 {
-                    Q.GetLineFarmLocation(allMinions);
-                    Console.WriteLine("casted q");
+                    var lowHealtMinis = ObjectManager.Get<Obj_AI_Base>().Where(mini => mini.IsMinion && mini.IsEnemy && mini.Health < Q.GetDamage(mini));
+                    var bestPosition = Q.GetLineFarmLocation(lowHealtMinis.ToList()); //Get the location of the highest hit
+                    if (bestPosition.Position.IsValid())
+                    {
+                        if (bestPosition.MinionsHit >= 2)
+                        {
+                            Console.WriteLine("Casted Q on minis");
+                            Q.Cast(bestPosition.Position, false);
+                        }
+                    }
                 }
                 else if(Player.Mana > 100 && W.IsInRange(minion) && W.IsReady())
                 {
