@@ -53,7 +53,7 @@ namespace First_Assembly
             R = new Spell(SpellSlot.R, 5500);
 
             Q.SetSkillshot(0.5f, 60f, Q.Speed, false, SkillshotType.SkillshotLine);
-            Q.MinHitChance = HitChance.High;
+            Q.MinHitChance = HitChance.Medium;
 
             IgniteSlot = Player.GetSpellSlot("SummonerDot");
 
