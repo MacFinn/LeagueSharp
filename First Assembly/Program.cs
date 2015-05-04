@@ -52,6 +52,9 @@ namespace First_Assembly
             E = new Spell(SpellSlot.E);
             R = new Spell(SpellSlot.R, 5500);
 
+            Q.SetSkillshot(0.5f, 60f, Q.Speed, false, SkillshotType.SkillshotLine);
+            Q.MinHitChance = HitChance.High;
+
             IgniteSlot = Player.GetSpellSlot("SummonerDot");
 
 
@@ -134,7 +137,8 @@ namespace First_Assembly
             //if (GetActive("AutoPoke"))
             //{
             //    AutoPoke();
-            //}
+            
+
             Orbwalker.ActiveMode = Orbwalking.OrbwalkingMode.None;
 
             switch (Orbwalker.ActiveMode)
@@ -219,6 +223,9 @@ namespace First_Assembly
                 {
                     CardSelector.StartSelecting(Cards.Yellow);
                 }
+                if (Q.IsReady() && Player.Mana >= 160) {
+                    Q.CastOnBestTarget(0f, false, true);
+                }
                 Orbwalker.ForceTarget(Target);
             }
         }
@@ -229,7 +236,10 @@ namespace First_Assembly
 
             Orbwalker.ActiveMode = Orbwalking.OrbwalkingMode.LaneClear;
             var allMinions = MinionManager.GetMinions(Player.Position, Q.Range, MinionTypes.All, MinionTeam.NotAlly, MinionOrderTypes.MaxHealth);
+            var lowHealtMinis = ObjectManager.Get<Obj_AI_Base>().Where(mini => mini.IsMinion && mini.IsEnemy && mini.Health < Q.GetDamage(mini));
+            var bestPosition = Q.GetLineFarmLocation(lowHealtMinis.ToList()); //Get the location of the highest hit
             
+
             if (allMinions.Count < 1) return;
             
             foreach (var minion in allMinions)
@@ -240,13 +250,10 @@ namespace First_Assembly
                 }
                 if (Q.IsReady() && Player.Mana >= 160)
                 {
-                    var lowHealtMinis = ObjectManager.Get<Obj_AI_Base>().Where(mini => mini.IsMinion && mini.IsEnemy && mini.Health < Q.GetDamage(mini));
-                    var bestPosition = Q.GetLineFarmLocation(lowHealtMinis.ToList()); //Get the location of the highest hit
                     if (bestPosition.Position.IsValid())
                     {
                         if (bestPosition.MinionsHit >= 2)
                         {
-                            Console.WriteLine("Casted Q on minis");
                             Q.Cast(bestPosition.Position, false);
                         }
                     }
@@ -281,7 +288,8 @@ namespace First_Assembly
             if (Q.IsReady() && Q.IsInRange(Target) && Player.ManaPercent > 30)
             {
                 Console.WriteLine("trying to poke");
-                Q.Cast(Target);
+                Q.CastOnBestTarget(0f, false, true);
+
             }
         }
 
@@ -300,7 +308,8 @@ namespace First_Assembly
             {
                 Console.WriteLine("KS");
                 Q.SetSkillshot(Q.Delay, Q.Width, Q.Speed, false, SkillshotType.SkillshotLine, Q.From, Q.RangeCheckFrom);
-                Q.CastOnUnit(Target);
+                Q.CastOnBestTarget(0f, false, true);
+
             }
             else if (W.IsKillable(Target) && W.IsReady() && W.IsInRange(Target))
             {
@@ -335,7 +344,7 @@ namespace First_Assembly
             if (Q.IsReady())
             {
                 Console.WriteLine("throw Q");
-                Q.Cast(Target.Position);
+                Q.CastOnBestTarget(0f, false, true);
             }
             else if (W.IsInRange(Target) && W.IsReady())
             {
