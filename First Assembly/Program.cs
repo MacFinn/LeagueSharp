@@ -229,23 +229,26 @@ namespace First_Assembly
 
             Orbwalker.ActiveMode = Orbwalking.OrbwalkingMode.LaneClear;
             var allMinions = MinionManager.GetMinions(Player.Position, Q.Range, MinionTypes.All, MinionTeam.NotAlly, MinionOrderTypes.MaxHealth);
+            
             if (allMinions.Count < 1) return;
+            
             foreach (var minion in allMinions)
             {
                 if (CardSelector.Status == SelectStatus.Selected)
                 {
                     Orbwalker.ForceTarget(minion);
                 }
-                if (Q.IsReady() && Player.ManaPercent < 40)
+                if (Q.IsReady() && Player.ManaPercent > 40)
                 {
-                    Q.CastOnUnit(minion);
-                } 
+                    Q.GetLineFarmLocation(allMinions);
+                    Console.WriteLine("casted q");
+                }
                 else if(Player.ManaPercent > 40 && W.IsInRange(minion))
                 {
                     Console.WriteLine("Red card minion");
                     CardSelector.StartSelecting(Cards.Red);
                 }
-                else if (Player.ManaPercent < 40 && W.IsInRange(minion))
+                else if (Player.ManaPercent <= 40 && W.IsInRange(minion))
                 {
                     Console.WriteLine("Blue card minion");
                     CardSelector.StartSelecting(Cards.Blue);
