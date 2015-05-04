@@ -109,7 +109,7 @@ namespace First_Assembly
             if(R.IsReady())
                 Render.Circle.DrawCircle(Player.Position, R.Range, Color.Aqua, 5);
             //Draw number of stacks on E
-            Drawing.DrawText(Drawing.WorldToScreen(Game.CursorPos)[0], Drawing.WorldToScreen(Game.CursorPos)[1], Color.AliceBlue, "E Stacks: " + EStacks);
+            Drawing.DrawText(Drawing.WorldToScreen(Game.CursorPos)[0] + 10, Drawing.WorldToScreen(Game.CursorPos)[1] + 10, Color.AliceBlue, "E Stacks: " + EStacks);
         }
 
         private static void Game_OnUpdate(EventArgs args){
