@@ -341,10 +341,10 @@ namespace First_Assembly
                 Player.Spellbook.CastSpell(IgniteSlot, Target);
             }
 
-            if (Q.IsReady())
+            if (Q.IsReady() && Q.CastIfHitchanceEquals(Target, Q.MinHitChance))
             {
                 Console.WriteLine("throw Q");
-                Q.CastOnBestTarget(0f, false, true);
+                Q.CastOnBestTarget(0f, false, true;
             }
             else if (W.IsInRange(Target) && W.IsReady())
             {
