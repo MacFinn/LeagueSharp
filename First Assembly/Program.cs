@@ -32,7 +32,7 @@ namespace First_Assembly
         private static int WallCastT;
         private static Vector2 YasuoWallCastedPos;
         private static GameObject YasuoWall;
-        private static int EStacks = 0;
+        private static int EStacks;
 
         #endregion
 
@@ -109,7 +109,7 @@ namespace First_Assembly
             if(R.IsReady())
                 Render.Circle.DrawCircle(Player.Position, R.Range, Color.Aqua, 5);
             //Draw number of stacks on E
-            Drawing.DrawText(Drawing.WorldToScreen(Game.CursorPos)[0] + 10, Drawing.WorldToScreen(Game.CursorPos)[1] + 10, Color.AliceBlue, "E Stacks: " + EStacks);
+            Drawing.DrawText(Drawing.WorldToScreen(Game.CursorPos)[0] - 50, Drawing.WorldToScreen(Game.CursorPos)[1] - 50, Color.AliceBlue, "E Stacks: " + EStacks);
         }
 
         private static void Game_OnUpdate(EventArgs args){
@@ -153,9 +153,10 @@ namespace First_Assembly
 
         static void OrbwalkingAfterAttack(AttackableUnit unit, AttackableUnit enemy)
         {
-            if (E.IsReady())
+            if (SpellSlot.E.IsReady())
             {
-                if (EStacks != 4)
+                Console.WriteLine("E READY");
+                if (EStacks < 4)
                 {
                     EStacks++;
                 }
@@ -164,6 +165,7 @@ namespace First_Assembly
                     EStacks = 0;
                 }
             }
+                
         }
 
         private static void Freeze()
