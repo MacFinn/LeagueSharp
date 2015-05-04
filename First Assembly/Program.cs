@@ -164,7 +164,14 @@ namespace First_Assembly
                 {
                     EStacks = 0;
                 }
+
             }
+            else
+            {
+                Console.WriteLine("E Not ready");
+            }
+                
+                
                 
         }
 
