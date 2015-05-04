@@ -109,7 +109,7 @@ namespace First_Assembly
             if(R.IsReady())
                 Render.Circle.DrawCircle(Player.Position, R.Range, Color.Aqua, 5);
             //Draw number of stacks on E
-            Drawing.DrawText(Game.CursorPos.Y, Game.CursorPos.Z, Color.AliceBlue, "E Stacks: " + EStacks);
+            Drawing.DrawText(Drawing.WorldToScreen(Game.CursorPos)[0], Drawing.WorldToScreen(Game.CursorPos)[1], Color.AliceBlue, "E Stacks: " + EStacks);
         }
 
         private static void Game_OnUpdate(EventArgs args){
@@ -230,10 +230,12 @@ namespace First_Assembly
                 } 
                 else if(Player.ManaPercent > 40 && W.IsInRange(minion))
                 {
+                    Console.WriteLine("Red card minion");
                     CardSelector.StartSelecting(Cards.Red);
                 }
                 else if (Player.ManaPercent < 40 && W.IsInRange(minion))
                 {
+                    Console.WriteLine("Blue card minion");
                     CardSelector.StartSelecting(Cards.Blue);
                 }
                 else
